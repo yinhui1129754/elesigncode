@@ -43,9 +43,6 @@ merge(obj.prototype,{
         this.draw.draw()
     },
     resize(){
-        if(!this.option.ele){
-            return;
-        }
         var w = this.option.ele.clientWidth;
         var h = this.option.ele.clientHeight;
         this.draw.resize(w,h);
@@ -112,19 +109,6 @@ merge(obj.prototype,{
         }
       
     },
-    setColor(color){
-        this.option.color=color;
-    },
-    setLineWidth(lineWidth){
-        this.option.lineWidth=lineWidth;
-    },
-    setBgColor(bgColor){
-        this.option.bgColor=bgColor;
-        this.draw.draw();
-    },
-    drawEle(){
-        this.draw.draw();
-    },
     pointMove(event){
        
         if(this.dropData.start){
@@ -165,7 +149,4 @@ merge(obj.prototype,{
         return base64Str
     }
 })
-if(window){
-    window["EleSign"] = obj;
-}
 export default obj;
