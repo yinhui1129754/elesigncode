@@ -57,6 +57,29 @@
     eleSign.init(); //初始化
     eleSign.moutedEle(ele) //将签名节点放入到传入的element节点中
 ```
+# jq开发模式
+## 首先在html中引入jq的脚本
+## 接着引入我们release\lib\dzjm.min.js到html页面中
+## 然后js代码 
+```javascript
+    $.fn.EleSign = function(option){
+        this.each(function(){
+            var eleSign = new EleSign(option);//实例化对象
+            eleSign.init(); //初始化
+            eleSign.moutedEle(this); //将签名节点放入到传入的element节点中
+            //给节点扩展方法好获取电子签名实例对象
+            this.getEleSign = function(){
+                return eleSign;
+            }
+        });
+        return this;
+    }
+    //这样我们就可以使用jq的方法来实例化我们的对象了
+    $("#xxx").EleSign({
+        color:"#ccc"
+    });
+```
+
 # 实例对象的时候可传入的参数
 |属性名称|描述|
 |:-|-:|

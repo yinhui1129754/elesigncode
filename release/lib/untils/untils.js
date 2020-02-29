@@ -150,29 +150,47 @@ function isPos(node){
     getEndStyle(node,"position") === "absolute"||
     getEndStyle(node,"position") === "fxied"
 }
+function getScrollTop() {  
+    var scrollPos;  
+    if (window.pageYOffset) {  
+    scrollPos = window.pageYOffset; }  
+    else if (document.compatMode && document.compatMode != 'BackCompat')  
+    { scrollPos = document.documentElement.scrollTop; }  
+    else if (document.body) { scrollPos = document.body.scrollTop; }   
+    return scrollPos;   
+} 
+function getScrollLeft() {  
+    var scrollPos;  
+    if (window.pageXOffset) {  
+    scrollPos = window.pageXOffset; }  
+    else if (document.compatMode && document.compatMode != 'BackCompat')  
+    { scrollPos = document.documentElement.scrollLeft; }  
+    else if (document.body) { scrollPos = document.body.scrollLeft; }   
+    return scrollPos;   
+} 
 export function getOffsetTop(e){
     var node = e;
     var offsetTop = node.offsetTop;
     node = node.parentNode;
-    while(node&&!(node instanceof HTMLDocument)){
+    while(node&&!(node.nodeType === 1)){
         if(isPos(node)){
             offsetTop +=node.offsetTop;
         }
         node = node.parentNode;
     }
-    return offsetTop-window.document.documentElement.scrollTop;
+    return offsetTop-getScrollTop();
 }
 export function getOffsetLeft(e){
     var node = e;
     var offsetLeft = node.offsetLeft;
     node = node.parentNode;
-    while(node&&!(node instanceof HTMLDocument)){
+    while(node&&!(node.nodeType === 1)){
         if(isPos(node)){
             offsetLeft +=node.offsetLeft;
         }
         node = node.parentNode;
     }
-    return offsetLeft-window.document.documentElement.scrollLeft;
+    return offsetLeft-getScrollLeft();
 }
 export default {
     proxyCall,
