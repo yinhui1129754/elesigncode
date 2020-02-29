@@ -52,6 +52,16 @@ merge(obj.prototype,{
         this.draw.resize(w,h);
         this.draw.draw();
     },
+    setColor(v){
+        this.option.color=v;
+    },
+    setLineWidth(v){
+        this.option.lineWidth = v;
+    },
+    setBgColor(v){
+        this.option.bgColor =v;
+        this.draw.draw();
+    },
     destory(){
         this.data.clear();
         this.redoData.clear();
@@ -129,6 +139,9 @@ merge(obj.prototype,{
             this.draw.draw();
         }
     },
+    drawEle(){
+        this.draw.draw();
+    },
     toPng(){
         this.draw.draw();
         return this.cvs.toDataURL("image/png");
@@ -149,4 +162,7 @@ merge(obj.prototype,{
         return base64Str
     }
 })
+if(window){
+    window.EleSign =obj;
+}
 export default obj;

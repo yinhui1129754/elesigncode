@@ -160,7 +160,7 @@ export function getOffsetTop(e){
         }
         node = node.parentNode;
     }
-    return offsetTop;
+    return offsetTop-window.document.documentElement.scrollTop;
 }
 export function getOffsetLeft(e){
     var node = e;
@@ -172,7 +172,7 @@ export function getOffsetLeft(e){
         }
         node = node.parentNode;
     }
-    return offsetLeft;
+    return offsetLeft-window.document.documentElement.scrollLeft;
 }
 export default {
     proxyCall,
