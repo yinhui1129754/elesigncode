@@ -7,8 +7,10 @@ var obj = createObject("event",function(main){
     this.eventBuffer = {} // 事件缓存
     this.main = main;
     this.touch=null;
+    this.isEle = false;
     this.mousedown = (function(e){
         e.preventDefault();
+        this.isEle = true;
         if(isMobile()){
             this.touch = e.changedTouches[0];
             this.main.pointStart({
@@ -23,34 +25,41 @@ var obj = createObject("event",function(main){
         }
     }).bind(this);
     this.mousemove = (function(e){
-        e.preventDefault();
-        if(isMobile()){
-            this.touch = e.changedTouches[0];
-            this.main.pointMove({
-                clientX:this.touch.clientX,
-                clientY:this.touch.clientY,
-            })
-        }else{
-            this.main.pointMove({
-                clientX:e.clientX,
-                clientY:e.clientY,
-            })
+        if(this.isEle === true){
+            e.preventDefault();
+        
+            if(isMobile()){
+                this.touch = e.changedTouches[0];
+                this.main.pointMove({
+                    clientX:this.touch.clientX,
+                    clientY:this.touch.clientY,
+                })
+            }else{
+                this.main.pointMove({
+                    clientX:e.clientX,
+                    clientY:e.clientY,
+                })
+            }
         }
     }).bind(this);
     this.mouseup = (function(e){
-        e.preventDefault();
-        if(isMobile()){
-            this.touch = e.changedTouches[0];
-            this.main.pointEnd({
-                clientX:this.touch.clientX,
-                clientY:this.touch.clientY,
-            })
-        }else{
-            this.main.pointEnd({
-                clientX:e.clientX,
-                clientY:e.clientY,
-            })
+        if(this.isEle === true){
+            this.isEle = false;
+            e.preventDefault();
+            if(isMobile()){
+                this.touch = e.changedTouches[0];
+                this.main.pointEnd({
+                    clientX:this.touch.clientX,
+                    clientY:this.touch.clientY,
+                })
+            }else{
+                this.main.pointEnd({
+                    clientX:e.clientX,
+                    clientY:e.clientY,
+                })
+            }
         }
+       
     }).bind(this);
 });
 merge(obj.prototype,{

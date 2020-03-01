@@ -1,6 +1,6 @@
 {
   "name": "elesigncode",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "电子签名",
   "main": "./lib/core/main.js",
   "scripts": {
