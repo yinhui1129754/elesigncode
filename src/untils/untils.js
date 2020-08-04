@@ -1,3 +1,9 @@
+/**
+ * 20200804
+ * 作者:375361172@qq.com
+ * 作用:此文件提供各种工具方法有类型判断 对象合并 设备判断之类的方法
+ * 日期:2020年08月04日
+ */
 import Base from "./../class/base"
 export function proxyCall(o,key,setAfter,geter,defaultVal,setBefore){
     var v = defaultVal||undefined;

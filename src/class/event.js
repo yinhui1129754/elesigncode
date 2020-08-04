@@ -1,3 +1,9 @@
+/**
+ * 20200804
+ * 作者:375361172@qq.com
+ * 作用:此文件是一个事件管理的类 提供添加事件 移除事件 分发事件
+ * 日期:2020年08月04日
+ */
 import {createObject,merge,isMobile} from "./../untils/untils"
 
 /**

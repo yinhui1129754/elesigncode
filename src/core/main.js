@@ -1,3 +1,13 @@
+/**
+ * 20200804
+ * 作者:375361172@qq.com
+ * 作用:此文件是一个core核心对象类 用来聚合我们编写的各种对象管理 
+ *      从而可以达到暴露给使用者使用的那种对象，可以看到该对象的方法
+ *      其实是来调用其他的一个一个分类对象
+ * 日期:2020年08月04日
+ */
+
+
 // 导入创建对象的方法和合并的方法
 import {createObject,merge, getOffsetLeft,getOffsetTop,proxyCall} from "./../untils/untils"
 // 导入默认配置项
