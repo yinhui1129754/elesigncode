@@ -2,5 +2,6 @@ export default {
     ele:null,
     color:"#333333",
     lineWidth:4,
-    bgColor:-1
+    bgColor:-1,
+    pen:"default", //writing
 }

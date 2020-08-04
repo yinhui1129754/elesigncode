@@ -54,6 +54,9 @@ export function isNil(v){
 export function isArray(v){
     return !isUndefined(v.length);
 }
+export function isWindow(v){
+    return v instanceof Window
+}
 /**
  * 合并数组
  * @param {要合并到的数组} arr 
@@ -64,7 +67,7 @@ export function mergeArr(arr,arr2){
     for(i;i<arr2.length;i++){
         item = arr2[i]
         if(isValue(item)||isFunction(item)||item instanceof Node||isNull(item[key])){
-            arr.push(otem);
+            arr.push(item);
         }else if(isObj(item)){
             if(!isObj(arr[i] )){
                 arr[i] = {};
@@ -93,7 +96,7 @@ export function merge(){
             item = arr[i]
             if(isObj(item)){
                 for(key in item){
-                    if(isValue(item[key])||isFunction(item[key])||item[key] instanceof Node||isNull(item[key])){
+                    if(isValue(item[key])||isFunction(item[key])||item[key] instanceof Node||isNull(item[key])||isWindow(item[key])){
                         o[key] = item[key];
                     }else if(isObj(item[key])){
                         if(!isObj(o[key])){

@@ -1,4 +1,5 @@
 import {createObject,merge,isMobile} from "./../untils/untils"
+
 /**
  * 创建一个事件类型的构造函数
  * @param {中心对象} main 
@@ -63,6 +64,43 @@ var obj = createObject("event",function(main){
     }).bind(this);
 });
 merge(obj.prototype,{
+    on(name,call){
+        if(!this.eventBuffer[name]){
+            this.eventBuffer[name] = [];
+        }
+        this.eventBuffer[name].push(call)
+    },
+    off(name,call){
+        if(!this.eventBuffer[name]||!this.eventBuffer[name].length){
+            return
+        }
+        var index = this.eventBuffer[name].indexOf(call);
+        if(index!== -1){
+            this.eventBuffer[name].splice(index,1)
+        }
+    },
+    once(name,call){
+        call.isOnce = true;
+        this.on(name,call)
+    },
+    sendEvent(name){
+        var arr = this.eventBuffer[name]
+        var i,item
+        var removeArr = [];
+        for(i=0;i<arr.length;i++){
+            item = arr[i]
+            if(arr[i].isOnce){
+                removeArr.push(item);
+            }else{
+                item&&item(this.main,Array.prototype.slice.call(arguments,1))
+            }
+        }
+        for(i=0;i<removeArr.length;i++){
+            item = removeArr[i];
+            this.off(name,item)
+            item&&item(this.main,Array.prototype.slice.call(arguments,1))
+        }
+    },
     bindEvent(ele){
         ele.style.cssText = "touch-action: pan-y;"
         if(isMobile()){

@@ -11,10 +11,18 @@ var obj = createObject("draw",function(cvs,main){
     this.memCvs = document.createElement("canvas");
     this.memCvs2d = this.memCvs.getContext("2d");
     this.scalc =1;
+    this.isLock =false;
 });
 merge(obj.prototype,{
     init(){
 
+    },
+    lock(){
+        this.isLock = true;
+    },
+    unlock(){
+        this.isLock = false;
+        this.draw();
     },
     resize(w,h){
         this.cvs.setAttribute("width",w);
@@ -29,36 +37,10 @@ merge(obj.prototype,{
         if(this.main.destoryKey){
             return console.log("object is destory!!");
         }
-        var arr = this.main.data.buffer
-        var len = arr.length;
-        var i =0,q=0;
-        var c2d =  this.memCvs2d;
-        var line= null;  
-        c2d.clearRect(0,0,this.memCvs.width,this.memCvs.height)
-        c2d.save();
-        c2d.scale(this.scalc,this.scalc);
-        for(i;i<len;i++){
-          
-          
-            c2d.beginPath();
-            line = arr[i];
-            if(!line.points.length>0){
-                continue;
-            }
-            c2d.lineWidth = line.lineWidth;
-            c2d.strokeStyle = line.color;
-            c2d.lineJoin="round";
-            c2d.lineCap="round";
-         //   c2d.globalCompositeOperation = 'source-atop'
-            c2d.lineTo(line.points[0].x,line.points[0].y);
-            for(q=1;q<line.points.length;q++){
-                c2d.lineTo(line.points[q].x,line.points[q].y);
-            }
-            c2d.stroke();
-            c2d.closePath();
-           
+        if(this.isLock){
+            return
         }
-        c2d.restore();
+        this.main.penList[this.main.pen].penCall(this.main)
         this.c2d.clearRect(0,0, this.cvs.width, this.cvs.height)
         if(this.main.option.bgColor!=-1){
             this.c2d.fillStyle = this.main.option.bgColor

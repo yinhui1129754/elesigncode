@@ -9,13 +9,17 @@ import Data from "./../class/data"
 import EventEx from "./../class/event"
 import Line from "./../class/line"
 import Point from "./../class/point"
+import ImageLoad from "./../class/image"
+import penCall from "./../untils/penCall" 
+import penUrl from "./../untils/penUrl"
+
 // 创建一个入口对象中心对象
 var obj = createObject("main",function(option){
     this.option = merge({},config,option);
     this.cvs = document.createElement("canvas");
     this.draw = new Draw(this.cvs,this);
     this.data = new Data(this);
-   
+    this.image = new ImageLoad(this);
     this.redoData = new Data(this);
     this.event = new EventEx(this);
     this.dropData = {
@@ -24,15 +28,33 @@ var obj = createObject("main",function(option){
         startY:0,
         nowLine:null
     };
+    this.penList = {}
+    this.pen = this.option.pen //绘图的画笔
+
 });
 merge(obj.prototype,{
     init(){
+        var self = this
+        var loadIndex = 0;
         if(this.option.ele){
             this.option.ele.appendChild(this.cvs);
             this.resize();
         }
+        this.draw.lock();
         this.draw.draw()
         this.event.bindEvent(this.cvs);
+        this.addPen("default","",penCall.default,function(){
+            loadIndex++
+            if(loadIndex === 2){
+                self.draw.unlock();
+            }
+        });
+        this.addPen("writing",penUrl.writing,penCall.writing,function(){
+            loadIndex++
+            if(loadIndex === 2){
+                self.draw.unlock();
+            }
+        });
     },
     moutedEle(e){
         this.option.ele = e;
@@ -160,6 +182,24 @@ merge(obj.prototype,{
             this.draw.draw();
         }
         return base64Str
+    },
+
+    setPen(name){
+        this.pen = name;
+    },
+    addPen(name,url,penCall,loadCall){
+        var self = this
+        this.penList[name] = {
+            url:url,
+            penCall:penCall,
+            img:null,
+            isSuccess:0
+        }
+        this.image.load(url,function(img,urlCall,isSuccess){
+            self.penList[name].penImage = img
+            self.penList[name].isSuccess = isSuccess
+            loadCall&&loadCall(self)
+        })
     }
 })
 if(window){
