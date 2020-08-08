@@ -5,9 +5,11 @@
  * 日期:2020年08月04日
  */
 export default {
-    ele:null,
-    color:"#333333",
-    lineWidth:4,
-    bgColor:-1,
-    pen:"default", //writing
+    ele: null,
+    color: "#333333",
+    lineWidth: 4,
+    bgColor: -1,
+    pen: "default", //writing
+    writingMaxLine: 20, //毛笔最大宽度
+    writingMinLine: 10 //毛笔最小宽度
 }

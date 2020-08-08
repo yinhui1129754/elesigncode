@@ -20,6 +20,7 @@
 #### event.js 事件类
 #### line.js 线条类
 #### point.js 点类
+#### image.js 管理图片加载的类
 
 ### core 
 我们这个类的中心脚本
@@ -81,12 +82,16 @@
 ```
 
 # 实例对象的时候可传入的参数
-|属性名称|描述|
-|:-|-:|
-|ele|要挂载的节点|
-|color|签名的颜色|
-|lineWidth|签名的线宽|
-|bgColor|签名的背景颜色|
+|属性名称|描述|默认|
+|:-|-:|-:|
+|ele|要挂载的节点|null|
+|color|签名的颜色|'#333333'|
+|lineWidth|签名的线宽|4|
+|bgColor|签名的背景颜色|-1|
+|pen|签名的笔类型可选择的值：'default' 'writing'|'default'|
+|writingMaxLine|当笔是writing的时候我们来设置最大线宽|20|
+|writingMinLine|当笔是writing的时候我们来设置最小线宽|10|
+
 # EleSign对象主要方法说明 
 |方法名称|描述|参数|返回值|
 |:-|-:|-:|-:|
@@ -105,6 +110,27 @@
 |setColor|设置签名的颜色|color:颜色字符串rgb hex均可以|无|
 |setLineWidth|设置线宽|lineWidth:线宽|无|
 |setBgColor|设置背景颜色|bgColor:颜色字符串rgb hex均可以|无|
+|setPen|设置笔的类型|name:'default' 'writing'|无|
+|addPen|新增笔的类型|name:笔的名称<br/>url:笔需要的图片地址<br/>penCall:笔需要的绘制回调<br/>loadCall:笔需要的图片加载完成的回调函数<br/>start:鼠标按下回调<br/>move:鼠标移动回调函数<br/>end:结束回调函数|无|
+
+# 添加笔的类型具体可参考代码
+
+```js
+        import penCall from "./../untils/penCall" //这里的文件可以打开查看
+        main.addPen("default", "", penCall.default.penCall, function () {
+            loadIndex++
+            if (loadIndex === 2) {
+                self.draw.unlock();
+            }
+        });
+        main.addPen("writing", penUrl.writing, penCall.writing.penCall, function () {
+            loadIndex++
+            if (loadIndex === 2) {
+                self.draw.unlock();
+            }
+        }, penCall.writing.start, penCall.writing.move, penCall.writing.end);
+
+```
 
 # [项目开源地址](https://github.com/yinhui1129754/dzqm)
 开源地址：https://github.com/yinhui1129754/dzqm
