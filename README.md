@@ -24,13 +24,13 @@
 
 
 ## 各个类的详细说明
-[data](https://github.com/yinhui1129754/dzqm/blob/master/md/data.md)
-[draw](https://github.com/yinhui1129754/dzqm/blob/master/md/draw.md)
-[event](https://github.com/yinhui1129754/dzqm/blob/master/md/event.md)
-[iamge](https://github.com/yinhui1129754/dzqm/blob/master/md/iamge.md)
-[line](https://github.com/yinhui1129754/dzqm/blob/master/md/line.md)
-[main](https://github.com/yinhui1129754/dzqm/blob/master/md/main.md)
-[point](https://github.com/yinhui1129754/dzqm/blob/master/md/point.md)
+[data 数据类](https://github.com/yinhui1129754/dzqm/blob/master/md/data.md)  
+[draw 绘制类](https://github.com/yinhui1129754/dzqm/blob/master/md/draw.md)  
+[event 事件类](https://github.com/yinhui1129754/dzqm/blob/master/md/event.md)  
+[image 图片类](https://github.com/yinhui1129754/dzqm/blob/master/md/image.md)  
+[line 线段类](https://github.com/yinhui1129754/dzqm/blob/master/md/line.md)  
+[main 核心类](https://github.com/yinhui1129754/dzqm/blob/master/md/main.md)  
+[point 点类](https://github.com/yinhui1129754/dzqm/blob/master/md/point.md)  
 
 ### core 
 我们这个类的中心脚本

@@ -10,3 +10,13 @@
 |:-|-:|-:|-:|
 |load(url,call)|加载一个url的图片|url:url地址,call:加载完成的回调|无|
 |loadArr(arr,call)|加载一个数组url的图片|arr:要加载的数组url,call:加载完成的回调|无|
+
+
+## 各个类的详细说明
+[data 数据类](https://github.com/yinhui1129754/dzqm/blob/master/md/data.md)  
+[draw 绘制类](https://github.com/yinhui1129754/dzqm/blob/master/md/draw.md)  
+[event 事件类](https://github.com/yinhui1129754/dzqm/blob/master/md/event.md)  
+[image 图片类](https://github.com/yinhui1129754/dzqm/blob/master/md/image.md)  
+[line 线段类](https://github.com/yinhui1129754/dzqm/blob/master/md/line.md)  
+[main 核心类](https://github.com/yinhui1129754/dzqm/blob/master/md/main.md)  
+[point 点类](https://github.com/yinhui1129754/dzqm/blob/master/md/point.md)  

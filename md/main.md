@@ -1,15 +1,16 @@
 # core核心类的详细说明
 
+
 ## 属性
 |属性名称|描述|详细描述|
 |:-|-:|-:|
 |option|储存new构造函数的时候传入的参数|无|
 |cvs|储存我们的canvas节点|无|
-|draw|储存绘制方法的对象|draw对象详细看文档[draw](#)|
-|data|储存我们的数据对象|data对象详细看文档[data](#)|
-|image|储存我们的图片加载对象|image对象详细看文档[ImageLoad](#)|
-|redoData|储存我们的撤销数据与data构成了重做和撤销的数据|data对象详细看文档[data](#)|
-|event|储存了我们的事件对象|event对象详细看文档[event](#)|
+|draw|储存绘制方法的对象|draw对象详细看文档[draw 绘制类](https://github.com/yinhui1129754/dzqm/blob/master/md/draw.md)|
+|data|储存我们的数据对象|data对象详细看文档[data 数据类](https://github.com/yinhui1129754/dzqm/blob/master/md/data.md)|
+|image|储存我们的图片加载对象|image对象详细看文档[image 图片类](https://github.com/yinhui1129754/dzqm/blob/master/md/image.md)|
+|redoData|储存我们的撤销数据与data构成了重做和撤销的数据|data对象详细看文档[data 数据类](https://github.com/yinhui1129754/dzqm/blob/master/md/data.md)|
+|event|储存了我们的事件对象|event对象详细看文档[event 事件类](https://github.com/yinhui1129754/dzqm/blob/master/md/event.md)|
 |pen|储存我们当前的绘制笔的类型名称|无|
 |penList|储存我们的所有笔的相关绘制信息|无|
 
@@ -32,7 +33,7 @@
 |toPng(void)|导出base64位的png图片数据|无|无|
 |toJpeg(void)|导出base64位的jpeg图片数据|无|无|
 |setPen(name)|设置当前的笔类型|name:要设置的笔的名称|无|
-|addPen|详细说明可以看这个文档[addPen](#)|无|无|
+|addPen|详细说明可以看这个文档[addPen](https://github.com/yinhui1129754/dzqm/blob/master/addPen.md)|无|无|
 
 ## core对象暴露的构造函数详细可以看文档
 
@@ -45,3 +46,13 @@ EleSign.STRUCT = {
     ImageLoad:ImageLoad,//图片加载类的构造函数
 }
 ```
+
+
+## 各个类的详细说明
+[data 数据类](https://github.com/yinhui1129754/dzqm/blob/master/md/data.md)  
+[draw 绘制类](https://github.com/yinhui1129754/dzqm/blob/master/md/draw.md)  
+[event 事件类](https://github.com/yinhui1129754/dzqm/blob/master/md/event.md)  
+[image 图片类](https://github.com/yinhui1129754/dzqm/blob/master/md/image.md)  
+[line 线段类](https://github.com/yinhui1129754/dzqm/blob/master/md/line.md)  
+[main 核心类](https://github.com/yinhui1129754/dzqm/blob/master/md/main.md)  
+[point 点类](https://github.com/yinhui1129754/dzqm/blob/master/md/point.md)  

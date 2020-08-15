@@ -15,7 +15,13 @@
 ## **注意：添加笔了过后有些参数就无法使用了 比如color参数就无法使用了
 
 ## core对象暴露的构造函数详细可以看文档
-
+[data 数据类](https://github.com/yinhui1129754/dzqm/blob/master/md/data.md)  
+[draw 绘制类](https://github.com/yinhui1129754/dzqm/blob/master/md/draw.md)  
+[event 事件类](https://github.com/yinhui1129754/dzqm/blob/master/md/event.md)  
+[image 图片类](https://github.com/yinhui1129754/dzqm/blob/master/md/image.md)  
+[line 线段类](https://github.com/yinhui1129754/dzqm/blob/master/md/line.md)  
+[main 核心类](https://github.com/yinhui1129754/dzqm/blob/master/md/main.md)  
+[point 点类](https://github.com/yinhui1129754/dzqm/blob/master/md/point.md)  
 ```js
 EleSign.STRUCT = {
     Draw:Draw, //绘制类的构造函数

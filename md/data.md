@@ -15,3 +15,13 @@
 |clear(void)|清空数据|无|无|
 |toJson(void)|返回一个调用了所有item的toJson方法的数组|无|返回一个可以储存的json数据|
 |jsonTo(json)|让json数据重现到该对象中|json:要重现的json数据|无|
+
+
+## 各个类的详细说明
+[data 数据类](https://github.com/yinhui1129754/dzqm/blob/master/md/data.md)  
+[draw 绘制类](https://github.com/yinhui1129754/dzqm/blob/master/md/draw.md)  
+[event 事件类](https://github.com/yinhui1129754/dzqm/blob/master/md/event.md)  
+[image 图片类](https://github.com/yinhui1129754/dzqm/blob/master/md/image.md)  
+[line 线段类](https://github.com/yinhui1129754/dzqm/blob/master/md/line.md)  
+[main 核心类](https://github.com/yinhui1129754/dzqm/blob/master/md/main.md)  
+[point 点类](https://github.com/yinhui1129754/dzqm/blob/master/md/point.md)  
