@@ -46,7 +46,7 @@ merge(obj.prototype, {
         if (this.isLock) {
             return
         }
-        this.main.penList[this.main.pen].penCall(this.main, this.main.penList[this.main.pen])
+        this.main.penList[this.main.pen]&&this.main.penList[this.main.pen].penCall(this.main, this.main.penList[this.main.pen])
         this.c2d.clearRect(0, 0, this.cvs.width, this.cvs.height)
         if (this.main.option.bgColor != -1) {
             this.c2d.fillStyle = this.main.option.bgColor

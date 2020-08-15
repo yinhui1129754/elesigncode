@@ -229,6 +229,7 @@ merge(obj.prototype, {
             self.penList[name].img = img
             self.penList[name].isSuccess = isSuccess
             loadCall && loadCall(self)
+            self.draw.draw()
         })
     }
 })

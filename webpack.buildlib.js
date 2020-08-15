@@ -1,7 +1,8 @@
 const path = require('path');
 module.exports = {
-    mode: 'production',
-    entry: {
+  mode: 'production',
+  //mode:'development',  
+  entry: {
       app: './release/lib/core/main.js'
     },
     plugins: [

@@ -1,0 +1,227 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="screen-orientation" content="portrait" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="full-screen" content="yes">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <meta charset="UTF-8">
+    <style>
+        .testInfo {
+            width: 100%;
+            height: 300px;
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 15px;
+        }
+    </style>
+    <title>支持多终端的电子签名</title>
+</head>
+
+<body>
+    <h1>所有功能演示</h1>
+    <div class="test">
+        <div id="testEle" class="testInfo"></div>
+    </div>
+    
+    <button id="setWriting">设置毛笔样式</button>
+    <button id="setDefault">设置默认样式</button>
+    <button id="undo">撤销</button>
+    <button id="redo">重做</button>
+    <button id="getJson">获取json</button>
+    <button id="downloadPng">获取透明图片</button>
+    <button id="downloadJpeg">获取不透明图片</button>
+    <h1>自适应拖动屏幕可以看出效果</h1>
+    <div class="test">
+        <div id="testEle2" class="testInfo"></div>
+    </div>
+    <h1>设置签名颜色</h1>
+    <div class="test">
+        <div id="testEle3" class="testInfo"></div>
+        <input value="#ff0000" id="color" type="color">
+    </div>
+    <h1>设置签名背景色</h1>
+    <div class="test">
+        <div id="testEle4" class="testInfo"></div>
+        <input value="#eeeeee" id="bgColor" type="color">
+    </div>
+
+    <h1>自定义画笔</h1>
+    <div class="test">
+        <div id="testEle5" class="testInfo"></div>
+        <img src="./1.png"/>
+    </div>
+    <script type="text/javascript" src="./release/lib/dzjm.min.js"></script>
+    <script>
+        //所有功能演示代码
+        var m = new EleSign({
+            ele: null
+        });
+        m.init();
+        m.moutedEle(document.getElementById("testEle"))
+        var undo = document.getElementById("undo");
+        var redo = document.getElementById("redo");
+        var getJson = document.getElementById("getJson");
+        var downloadPng = document.getElementById("downloadPng")
+        var downloadJpeg = document.getElementById("downloadJpeg")
+        var setWriting = document.getElementById("setWriting")
+        var setDefault = document.getElementById("setDefault")
+        setWriting.addEventListener("click",function(){
+            m.setPen("writing")
+        })
+        setDefault.addEventListener("click",function(){
+            m.setPen("default")
+        })
+        undo.addEventListener("click", function () {
+            m.undo();
+        })
+        redo.addEventListener("click", function () {
+            m.redo();
+        })
+        getJson.addEventListener("click", function () {
+            var jsonStr = m.toJson();
+            console.log(jsonStr);
+            alert(jsonStr);
+        })
+        downloadPng.addEventListener("click", function () {
+            var baseUrl = m.toPng();
+            var a = document.createElement("a");
+            document.body.appendChild(a);
+            a.setAttribute("href", baseUrl);
+            a.setAttribute("download", "png图片");
+            a.click();
+            document.body.removeChild(a);
+        })
+        downloadJpeg.addEventListener("click", function () {
+            var baseUrl = m.toJpeg();
+            var a = document.createElement("a");
+            document.body.appendChild(a);
+            a.setAttribute("href", baseUrl);
+            a.setAttribute("download", "jpeg图片");
+            a.click();
+            document.body.removeChild(a);
+        })
+
+        //响应式演示代码
+        var m2 = new EleSign({
+            ele: document.getElementById("testEle2")
+        })
+        m2.init();
+
+
+        //设置签名颜色
+        var m3 = new EleSign({
+            ele: document.getElementById("testEle3"),
+            color: "#ff0000"
+        })
+        m3.init();
+        document.getElementById("color").addEventListener("change", function () {
+            m3.setColor(this.value)
+        })
+
+        //设置签名背景颜色
+        var m4 = new EleSign({
+            ele: document.getElementById("testEle4"),
+            bgColor: "#eeeeee"
+        })
+        m4.init();
+        document.getElementById("bgColor").addEventListener("change", function () {
+            m4.setBgColor(this.value)
+        })
+        var timemrId = -1;
+        window.onresize = function () {
+            clearTimeout(timemrId);
+            timemrId = setTimeout(function () {
+                m.resize();
+                m2.resize();
+                m3.resize();
+                m4.resize();
+            }, 100);
+        }
+        
+
+
+        // 添加自定义画笔
+        var m5 = new EleSign({
+            ele: document.getElementById("testEle5")
+        })
+        m5.init()
+        // 获取两点之间的距离 通过距离来换算 两点之间应该有多少绘制项
+        function distance(a, b) {
+            var x = b.x - a.x, y = b.y - a.y;
+            return Math.sqrt(x * x + y * y);
+        }
+        /**
+         * addPen方法说明
+         * name 笔的名字
+         * url 笔可能需要的图片地址
+         * penCall 绘制call 相当于展示数据的时候需要绘制的东西 需要手动实现
+         * loadCall 图片资源加载完成的回调 这里就可以直接用我们的画笔了
+         * start 开始签名
+         * move 签名移动中
+         * end 签名结束
+         * 
+         * *注意项: 在添加笔之前一定要调用 m5.draw.locak 将绘制给锁起来 
+         * 我们把绘制锁起来了过后 在笔完成添加了过后就要解开锁 让绘制可以进行 
+         * 
+        */
+        //锁绘制
+        m5.draw.lock()
+        m5.addPen("fangkuai", "./1.png", function(main, penObj){
+            var self = main.draw
+            var arr = self.main.data.buffer
+            var i = 0, q = 0, w = 0;
+            var c2d = self.memCvs2d;
+            c2d.clearRect(0, 0, self.memCvs.width, self.memCvs.height)
+            c2d.save();
+            c2d.scale(self.scalc, self.scalc);
+            for (i = 0; i < arr.length; i++) {
+                var pointArr = []
+                for (q = arr[i].points.length - 1; q > 0; q--) {
+                    var x = arr[i].points[q].x
+                    var y = arr[i].points[q].y
+                    var p1 = arr[i].points[q]
+                    var p2 = arr[i].points[q - 1]
+                    var dis = distance(p2, p1)
+                    if (p2) {
+                        var len2 = Math.round(dis / 2) + 1;
+                        for (w = 0; w < len2; w++) {
+                            x = p1.x + (p2.x - p1.x) / len2 * w;
+                            y = p1.y + (p2.y - p1.y) / len2 * w;
+                            pointArr.push({
+                                x: x,
+                                y: y
+                            })
+                        }
+                    }
+                }
+                var l = main.option.writingMaxLine
+                for (w = pointArr.length - 1; w > 0; w--) {
+                    c2d.drawImage(penObj.img, pointArr[w].x, pointArr[w].y, l, l);
+                }
+
+            }
+            c2d.restore();
+        }, function () {
+            //解锁绘制 
+            m5.draw.unlock();
+            m5.setPen("fangkuai")
+        }, function (main, penObj, pos) {
+            main.dropData.nowLine = new EleSign.STRUCT.Line()
+            main.dropData.nowLine.pushPoint(new EleSign.STRUCT.Point(pos.x, pos.y));
+            main.data.pushData(main.dropData.nowLine);
+        }, function(main, penObj, pos){
+            main.dropData.nowLine.pushPoint(new EleSign.STRUCT.Point(pos.x, pos.y));
+            main.draw.draw();
+        }, function (main, penObj, pos) {
+            main.draw.draw();
+        });
+    </script>
+</body>
+
+</html>

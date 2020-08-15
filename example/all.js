@@ -1,7 +1,8 @@
 import "./../src/scss/main.scss"
 import Main from "./../src/core/main"
 var m = new Main({
-    ele:null
+    ele:null,
+    pen:"writing"
 });
 m.init();
 m.moutedEle(document.getElementById("testEle"))
