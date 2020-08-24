@@ -1,16 +1,17 @@
 import "./../src/scss/main.scss"
 import Main from "./../src/core/main"
+import defaultData from "./data"
 var m = new Main({
     ele:null,
     pen:"writing"
 });
 m.init();
-m.moutedEle(document.getElementById("testEle"))
-
+m.moutedEle(document.getElementById("testEle"));
+m.jsonTo(defaultData);
 var undo = document.getElementById("undo");
 var redo  = document.getElementById("redo");
 var getJson  = document.getElementById("getJson");
-var downloadPng = document.getElementById("downloadPng")
+var downloadPng = document.getElementById("downloadPng");
 undo.addEventListener("click",function(){
     m.undo();
 })

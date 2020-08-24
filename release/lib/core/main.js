@@ -126,6 +126,9 @@ merge(obj.prototype, {
             color: this.option.color,
             lineWidth: this.option.lineWidth,
             bgColor: this.option.bgColor,
+            pen:this.option.pen,
+            writingMaxLine:this.option.writingMaxLine,
+            writingMinLine:this.option.writingMinLine
         });
     },
     jsonTo(json) {
@@ -133,6 +136,9 @@ merge(obj.prototype, {
         this.option.color = json.color;
         this.option.lineWidth = json.lineWidth;
         this.option.bgColor = json.bgColor;
+        this.option.pen = json.pen;
+        this.option.writingMaxLine = json.writingMaxLine;
+        this.option.writingMinLine = json.writingMinLine;
         this.draw.draw();
     },
     pointStart(event) {
