@@ -26,6 +26,7 @@ var str = `{
   "author": "HHSJ",
   "license": "ISC",
   "git":"https://github.com/yinhui1129754/dzqm",
+  "publishConfig": { "registry": "https://github.com/yinhui1129754/dzqm" }, 
   "devDependencies": {
     "@babel/core": "^7.6.2",
     "@babel/preset-env": "^7.6.2",
@@ -47,6 +48,7 @@ var str = `{
     "webpack-dev-server": "^3.8.2"
   }
 }
+
 `
 console.log(str)
 fs.mkdirSync(resolve("./../release"));
