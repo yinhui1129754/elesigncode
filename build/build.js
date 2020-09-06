@@ -25,8 +25,8 @@ var str = `{
   "keywords":["电子签名","js","js签名","signature","vue-component","vue-signature"],
   "author": "HHSJ",
   "license": "ISC",
-  "git":"https://github.com/yinhui1129754/dzqm",
-  "publishConfig": { "registry": "https://github.com/yinhui1129754/dzqm" }, 
+  "git":"https://github.com/yinhui1129754/",
+  "publishConfig": { "registry": "https://github.com/yinhui1129754/" }, 
   "devDependencies": {
     "@babel/core": "^7.6.2",
     "@babel/preset-env": "^7.6.2",
