@@ -91,6 +91,11 @@
     });
 ```
 
+# 在vue-cli中使用我们的组件
+
+详细可以看[在vue中使用此组件](https://github.com/yinhui1129754/dzqm/blob/master/md/dzqm-vue.md)
+
+
 # 实例对象的时候可传入的参数
 |属性名称|描述|默认|
 |:-|-:|-:|
