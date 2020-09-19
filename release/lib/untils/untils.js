@@ -178,6 +178,9 @@ function getScrollLeft() {
     return scrollPos;
 }
 export function getOffsetTop(e) {
+    if(e.getBoundingClientRect){
+        return e.getBoundingClientRect().top
+    }
     var node = e;
     var offsetTop = node.offsetTop;
     node = node.parentNode;
@@ -190,6 +193,9 @@ export function getOffsetTop(e) {
     return offsetTop - getScrollTop();
 }
 export function getOffsetLeft(e) {
+    if(e.getBoundingClientRect){
+        return e.getBoundingClientRect().left
+    }
     var node = e;
     var offsetLeft = node.offsetLeft;
     node = node.parentNode;
