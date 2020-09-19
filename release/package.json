@@ -1,6 +1,6 @@
 {
   "name": "elesigncode",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "一个支持移动端，平板端，PC端的电子签名组件，支持多开发模式，webpack jquery 原生js开发模式的电子签名组件 最新版支持vue-cli中使用",
   "main": "./lib/core/main.js",
   "scripts": {
@@ -14,7 +14,7 @@
   "author": "HHSJ",
   "license": "ISC",
   "git":"https://github.com/yinhui1129754/",
-
+  "registry": "https://github.com/yinhui1129754/",
   "devDependencies": {
     "@babel/core": "^7.6.2",
     "@babel/preset-env": "^7.6.2",
@@ -36,4 +36,3 @@
     "webpack-dev-server": "^3.8.2"
   }
 }
-
