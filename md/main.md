@@ -32,6 +32,7 @@
 |drawEle(void)|绘制数据|无|无|
 |toPng(void)|导出base64位的png图片数据|无|无|
 |toJpeg(void)|导出base64位的jpeg图片数据|无|无|
+|clear|清除签名|无|无|
 |setPen(name)|设置当前的笔类型|name:要设置的笔的名称|无|
 |addPen|详细说明可以看这个文档[addPen](https://github.com/yinhui1129754/dzqm/blob/master/addPen.md)|无|无|
 

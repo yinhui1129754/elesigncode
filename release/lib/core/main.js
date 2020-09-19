@@ -93,6 +93,11 @@ merge(obj.prototype, {
         this.option.bgColor = v;
         this.draw.draw();
     },
+    clear(){
+        this.data.clear();
+        this.redoData.clear();
+        this.draw.draw();
+    },
     destory() {
         this.data.clear();
         this.redoData.clear();
