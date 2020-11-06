@@ -127,6 +127,8 @@
 |setBgColor|设置背景颜色|bgColor:颜色字符串rgb hex均可以|无|
 |setPen|设置笔的类型|name:'default' 'writing'|无|
 |clear|清除签名|无|无|
+|setReadOnly|设置只读|type:是否只读|无|
+|isEmpty|获取是否签名了|无|返回true表示是没有签名，返回false表示签名了|
 |addPen|新增笔的类型可以看这个文档[addPen](https://github.com/yinhui1129754/dzqm/blob/master/addPen.md)|name:笔的名称<br/>url:笔需要的图片地址<br/>penCall:笔需要的绘制回调<br/>loadCall:笔需要的图片加载完成的回调函数<br/>start:鼠标按下回调<br/>move:鼠标移动回调函数<br/>end:结束回调函数|无|
 
 # 添加笔的类型具体可参考代码

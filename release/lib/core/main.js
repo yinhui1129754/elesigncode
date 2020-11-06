@@ -32,6 +32,7 @@ var obj = createObject("main", function (option) {
     this.image = new ImageLoad(this);
     this.redoData = new Data(this);
     this.event = new EventEx(this);
+    this.readOnly = false; // 是否是只读
     this.dropData = {
         start: false,
         startX: 0,
@@ -42,6 +43,12 @@ var obj = createObject("main", function (option) {
     this.pen = this.option.pen //绘图的画笔
 });
 merge(obj.prototype, {
+    setReadOnly(type){
+        this.readOnly = type
+    },
+    isEmpty(){
+        return !!!this.data.getSize()
+    },
     init() {
         var self = this
         var loadIndex = 0;
@@ -110,7 +117,11 @@ merge(obj.prototype, {
         }
         proxyCall(this, "destoryKey", null, null, 1, () => { return true; })
     },
+   
     undo() {
+        if(this.readOnly){
+            return
+        }
         var b = this.data.popData();
         if (b) {
             this.redoData.pushData(b);
@@ -119,6 +130,9 @@ merge(obj.prototype, {
 
     },
     redo() {
+        if(this.readOnly){
+            return
+        }
         var b = this.redoData.popData();
         if (b) {
             this.data.pushData(b);
