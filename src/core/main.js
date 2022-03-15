@@ -234,7 +234,44 @@ merge(obj.prototype, {
         }
         return base64Str
     },
-
+    /**
+     * 提取颜色的R、G、B值
+     * @param {String} color #abc | #abcdef | rgb(255,255,255) | rgba(255,255,255,1)
+     * @returns [R,G,B] | [R,G,B,A]
+     */
+     getColorRGBs(color) {
+        // 16进制颜色值的正则
+        var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
+        // 把颜色值变成小写
+        var color = color.toLowerCase();
+        if (reg.test(color)) {
+            // 如果只有三位的值，需变成六位，如：#fff => #ffffff
+            if (color.length === 4) {
+                var colorNew = "#";
+                for (var i = 1; i < 4; i += 1) {
+                    colorNew += color.slice(i, i + 1).concat(color.slice(i, i + 1));
+                }
+                color = colorNew;
+            }
+            // 处理六位的颜色值，转为RGB
+            var colorArr = [];
+            for (var i = 1; i < 7; i += 2) {
+                colorArr.push(parseInt("0x" + color.slice(i, i + 2)));
+            }
+            return colorArr
+        } else {
+            if(color.includes("rgb")){
+                try {
+                    // 如果是rgb颜色，返回数组长度为3，如：[255,255,255]；如果是rgba颜色，返回数组长度为4，如：[255,255,255,1]
+                    return color.split("(")[1].split(")")[0].split(",")
+                } catch (error) {
+                    return [0,0,0]
+                }
+            }else{
+                return [0,0,0]
+            }
+        }
+    },
     setPen(name) {
         this.pen = name;
         this.draw.draw();
@@ -251,10 +288,42 @@ merge(obj.prototype, {
             end: end,
         }
         this.image.load(url, function (img, urlCall, isSuccess) {
-            self.penList[name].img = img
-            self.penList[name].isSuccess = isSuccess
-            loadCall && loadCall(self)
-            self.draw.draw()
+            if (url) {
+                var colorTransformCvs = document.createElement("canvas");
+                colorTransformCvs.width = img.width;
+                colorTransformCvs.height = img.height;
+                var colorTransformCtx = colorTransformCvs.getContext("2d");
+                colorTransformCtx.drawImage(img, 0, 0);
+                var imageData = colorTransformCtx.getImageData(0, 0, img.width, img.height);
+                var data = imageData.data;
+                var colorArr = self.getColorRGBs(self.option.color); // 画笔颜色RGB值的数组
+                for (var i = 0; i < data.length; i += 4) {
+                    // 非透明的像素点，颜色转为画笔颜色
+                    if(data[i + 3] != 0){
+                        data[i] = colorArr[0];
+                        data[i + 1] = colorArr[1];
+                        data[i + 2] = colorArr[2];
+                    }
+                }
+                // 清除画布，并将处理后的像素点写入画布
+                colorTransformCtx.clearRect(0, 0, img.width, img.height);
+                colorTransformCtx.putImageData(imageData, 0, 0);
+                var newImg = new Image();
+                var src = colorTransformCvs.toDataURL("image/png");
+                newImg.crossOrigin = "Anonymous";
+                newImg.onload = function () {
+                    self.penList[name].img = newImg
+                    self.penList[name].isSuccess = isSuccess
+                    loadCall && loadCall(self)
+                    self.draw.draw()
+                }
+                newImg.src = src;
+            }else{
+                self.penList[name].img = img
+                self.penList[name].isSuccess = isSuccess
+                loadCall && loadCall(self)
+                self.draw.draw()
+            }
         })
     }
 })
