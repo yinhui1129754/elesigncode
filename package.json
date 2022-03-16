@@ -8,13 +8,19 @@
     "build": "webpack --config webpack.config.js",
     "build:lib": "rimraf release&&node build/build&&webpack --config webpack.buildlib.js&&rimraf lib"
   },
-  "url" : "https://github.com/yinhui1129754/dzqm/issues",
-  "email" : "375361172@qq.com",
-  "keywords":["电子签名","js","js签名","signature","vue-component","vue-signature"],
+  "url": "https://github.com/yinhui1129754/dzqm/issues",
+  "email": "375361172@qq.com",
+  "keywords": [
+    "电子签名",
+    "js",
+    "js签名",
+    "signature",
+    "vue-component",
+    "vue-signature"
+  ],
   "author": "HHSJ",
   "license": "ISC",
-  "git":"https://github.com/yinhui1129754/",
-  
+  "git": "https://github.com/yinhui1129754/",
   "devDependencies": {
     "@babel/core": "^7.6.2",
     "@babel/preset-env": "^7.6.2",
