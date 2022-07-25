@@ -207,7 +207,12 @@ export function getOffsetLeft(e) {
     }
     return offsetLeft - getScrollLeft();
 }
+export var ENUM_DRAW_LINE_MODE = {
+    DEFAULT:0, //兼容老版本 
+    LINE_SAVE:1 // 新的画线模式 每一根线段保留一个画笔
+}
 export default {
+    ENUM_DRAW_LINE_MODE,
     proxyCall,
     mergeArr,
     merge,

@@ -106,6 +106,8 @@
 |pen|签名的笔类型可选择的值：'default' 'writing'|'default'|
 |writingMaxLine|当笔是writing的时候我们来设置最大线宽|20|
 |writingMinLine|当笔是writing的时候我们来设置最小线宽|10|
+|bgImg|背景图片元素 只能传Image对象 img节点 canvas节点|null|
+|bgImgDrawCall|绘制的回调函数回调参数 ctx,img,main|null|
 
 # EleSign对象主要方法说明 
 |方法名称|描述|参数|返回值|
@@ -167,3 +169,23 @@
  npm run dev
 ```
 
+
+# 更新日志
+
+## 20211028 ver1.1.9
+
+新增main参数 drawMode 
+
+给main加入drawMode绘图模式0 以前的绘制模式 1线段会保留绘制的笔类型，已经绘制的线段不会跟着笔修改而修改  
+
+addPen加入参数 opt 这个参数是一个obj类型目前只有一个属性 drawLine 为了兼容drawMode值为1的时候绘制线段的函数  
+
+drawLine(c2d,line,main,penObj)函数的回调参数有  
+
+c2d绘制上线文,line用户操作的line线段数据,main核心对象main,penObj笔的数据结构  
+
+可以直接把以前的penCall里面绘制线段的方法复制到drawLine里面来 penCall保留是drawMode为0的时候绘制的值  
+
+在addPen中new Line对象的时候要加上main当前的笔类型 不然无法让笔的数据结构存在json中 这个只针对要使用drawMode为1的使用者并且有能力新增笔类型的开发者   
+
+addPen可以结合canvas提供的贝塞尔曲线 可以绘制出更像毛笔绘制的笔迹  

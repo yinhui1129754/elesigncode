@@ -9,7 +9,7 @@
 
 
 // 导入创建对象的方法和合并的方法
-import { createObject, merge, getOffsetLeft, getOffsetTop, proxyCall } from "./../untils/untils"
+import { createObject, merge, getOffsetLeft, getOffsetTop, proxyCall,ENUM_DRAW_LINE_MODE } from "./../untils/untils"
 // 导入默认配置项
 import config from "./../untils/config"
 // 绘制构造函数
@@ -39,6 +39,7 @@ var obj = createObject("main", function (option) {
         startY: 0,
         nowLine: null
     };
+    this.drawMode =option.drawMode||ENUM_DRAW_LINE_MODE.DEFAULT; // 绘制模式 
     this.penList = {}
     this.pen = this.option.pen //绘图的画笔
 });
@@ -64,13 +65,17 @@ merge(obj.prototype, {
             if (loadIndex === 2) {
                 self.draw.unlock();
             }
+        },null,null,null,{
+            drawLine: penCall.default.drawLine
         });
         this.addPen("writing", penUrl.writing, penCall.writing.penCall, function () {
             loadIndex++
             if (loadIndex === 2) {
                 self.draw.unlock();
             }
-        }, penCall.writing.start, penCall.writing.move, penCall.writing.end);
+        }, penCall.writing.start, penCall.writing.move, penCall.writing.end,{
+            drawLine:penCall.writing.drawLine
+        });
     },
     moutedEle(e) {
         this.option.ele = e;
@@ -147,7 +152,8 @@ merge(obj.prototype, {
             bgColor: this.option.bgColor,
             pen:this.option.pen,
             writingMaxLine:this.option.writingMaxLine,
-            writingMinLine:this.option.writingMinLine
+            writingMinLine:this.option.writingMinLine,
+            drawMode:this.drawMode
         });
     },
     jsonTo(json) {
@@ -158,6 +164,7 @@ merge(obj.prototype, {
         this.option.pen = json.pen;
         this.option.writingMaxLine = json.writingMaxLine;
         this.option.writingMinLine = json.writingMinLine;
+        this.option.drawMode = json.drawMode;
         this.draw.draw();
     },
     pointStart(event) {
@@ -173,7 +180,7 @@ merge(obj.prototype, {
             } else {
                 this.dropData.startX = eleX;
                 this.dropData.startY = eleY;
-                this.dropData.nowLine = new Line();
+                this.dropData.nowLine = new Line(this.pen);
                 this.dropData.nowLine.setLineWidth(this.option.lineWidth);
                 this.dropData.nowLine.setColor(this.option.color);
                 this.data.pushData(this.dropData.nowLine);
@@ -276,7 +283,14 @@ merge(obj.prototype, {
         this.pen = name;
         this.draw.draw();
     },
-    addPen(name, url, penCall, loadCall, start, move, end) {
+    setDrawMode(mode){
+        this.drawMode = mode;
+        this.draw.draw(); 
+    },
+    getDrawMode(){
+        return this.drawMode;
+    },
+    addPen(name, url, penCall, loadCall, start, move, end,opt) {
         var self = this
         this.penList[name] = {
             url: url,
@@ -286,6 +300,7 @@ merge(obj.prototype, {
             start: start,
             move: move,
             end: end,
+            drawLine: opt&&opt.drawLine
         }
         this.image.load(url, function (img, urlCall, isSuccess) {
             if (url) {
@@ -319,10 +334,10 @@ merge(obj.prototype, {
                 }
                 newImg.src = src;
             }else{
-                self.penList[name].img = img
-                self.penList[name].isSuccess = isSuccess
-                loadCall && loadCall(self)
-                self.draw.draw()
+            self.penList[name].img = img
+            self.penList[name].isSuccess = isSuccess
+            loadCall && loadCall(self)
+            self.draw.draw()
             }
         })
     }
@@ -333,6 +348,7 @@ obj.STRUCT = {
     Data:Data,
     Point:Point,
     ImageLoad:ImageLoad,
+    ENUM_DRAW_LINE_MODE:ENUM_DRAW_LINE_MODE,
 }
 if (window) {
     window.EleSign = obj;

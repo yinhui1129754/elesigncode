@@ -16,6 +16,9 @@ var obj = createObject("event", function (main) {
     this.touch = null;
     this.isEle = false;
     this.mousedown = (function (e) {
+        if(this.main.readOnly){
+            return
+        }
         e.preventDefault();
         this.isEle = true;
         if (isMobile()) {

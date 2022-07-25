@@ -11,12 +11,19 @@ import Point from "./point"
 /**
  * 创建一个线段类型的构造函数
  */
-var obj = createObject("line", function () {
+var obj = createObject("line", function (penName) {
     this.points = []; //储存点
     this.color = "#333333"; //储存颜色
     this.lineWidth = 4;
+    this.pen = penName||"default"
 });
 merge(obj.prototype, {
+    setPen(penName){
+        this.pen=penName;
+    },
+    getPen(){
+        return this.pen;
+    },
     pushPoint(p) {
         this.points.push(p);
     },
@@ -47,12 +54,14 @@ merge(obj.prototype, {
         return {
             points: arr,
             color: this.color,
-            lineWidth: this.lineWidth
+            lineWidth: this.lineWidth,
+            pen:this.pen
         }
     },
     jsonTo(json) {
         this.color = json.color;
         this.lineWidth = json.lineWidth;
+        this.pen = json.pen;
         for (var i = 0; i < json.points.length; i++) {
             var buf = new Point(json.points[i].x, json.points[i].y);
             this.points.push(buf);

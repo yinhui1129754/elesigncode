@@ -56,6 +56,10 @@
         <div id="testEle5" class="testInfo"></div>
         <img src="./1.png"/>
     </div>
+    <h1>设置绘图模式</h1>
+    <div class="test">
+        <div id="testEle6" class="testInfo"></div>
+    </div>
     <script type="text/javascript" src="./release/lib/dzjm.min.js"></script>
     <script>
         //所有功能演示代码
@@ -171,22 +175,45 @@
          * 
         */
         //锁绘制
-        m5.draw.lock()
+       
         m5.addPen("fangkuai", "./1.png", function(main, penObj){
             var self = main.draw
             var arr = self.main.data.buffer
-            var i = 0, q = 0, w = 0;
+            var i = 0;
             var c2d = self.memCvs2d;
             c2d.clearRect(0, 0, self.memCvs.width, self.memCvs.height)
             c2d.save();
             c2d.scale(self.scalc, self.scalc);
             for (i = 0; i < arr.length; i++) {
+                this.drawLine&&this.drawLine(c2d,arr[i],main,penObj);
+            }
+            c2d.restore();
+        }, function () {
+            //解锁绘制 
+            m5.draw.unlock();
+            m5.setPen("fangkuai")
+        }, function (main, penObj, pos) {
+            main.dropData.nowLine = new EleSign.STRUCT.Line(main.pen)
+            main.dropData.nowLine.pushPoint(new EleSign.STRUCT.Point(pos.x, pos.y));
+            main.data.pushData(main.dropData.nowLine);
+        }, function(main, penObj, pos){
+            main.dropData.nowLine.pushPoint(new EleSign.STRUCT.Point(pos.x, pos.y));
+            main.draw.draw();
+        }, function (main, penObj, pos) {
+            main.draw.draw();
+        },{
+            drawLine:function(c2d,line,main,penObj){
+                var q=0,w=0;
+                if(!line.points.length){
+                    return;
+                }
+                
                 var pointArr = []
-                for (q = arr[i].points.length - 1; q > 0; q--) {
-                    var x = arr[i].points[q].x
-                    var y = arr[i].points[q].y
-                    var p1 = arr[i].points[q]
-                    var p2 = arr[i].points[q - 1]
+                for (q = line.points.length - 1; q > 0; q--) {
+                    var x = line.points[q].x
+                    var y = line.points[q].y
+                    var p1 = line.points[q]
+                    var p2 = line.points[q - 1]
                     var dis = distance(p2, p1)
                     if (p2) {
                         var len2 = Math.round(dis / 2) + 1;
@@ -202,25 +229,39 @@
                 }
                 var l = main.option.writingMaxLine
                 for (w = pointArr.length - 1; w > 0; w--) {
+                    if (pointArr.length > 100 && w < 60) {
+                        l = l + 0.2;
+                        if (l > main.option.writingMaxLine) l = main.option.writingMaxLine;
+                    } else {
+                        l = l - 0.2;
+                        if (l < main.option.writingMinLine) l = main.option.writingMinLine;
+                    }
                     c2d.drawImage(penObj.img, pointArr[w].x, pointArr[w].y, l, l);
                 }
 
-            }
-            c2d.restore();
-        }, function () {
-            //解锁绘制 
-            m5.draw.unlock();
-            m5.setPen("fangkuai")
-        }, function (main, penObj, pos) {
-            main.dropData.nowLine = new EleSign.STRUCT.Line()
-            main.dropData.nowLine.pushPoint(new EleSign.STRUCT.Point(pos.x, pos.y));
-            main.data.pushData(main.dropData.nowLine);
-        }, function(main, penObj, pos){
-            main.dropData.nowLine.pushPoint(new EleSign.STRUCT.Point(pos.x, pos.y));
-            main.draw.draw();
-        }, function (main, penObj, pos) {
-            main.draw.draw();
+            },
         });
+
+        //设置绘图模式
+        var useJson = {"data":[{"points":[{"x":479,"y":103},{"x":484,"y":102},{"x":493,"y":101},{"x":506,"y":101},{"x":522,"y":102},{"x":539,"y":105},{"x":550,"y":107},{"x":557,"y":112},{"x":560,"y":114}],"color":"#333333","lineWidth":4},{"points":[{"x":421,"y":152},{"x":424,"y":152},{"x":438,"y":152},{"x":463,"y":152},{"x":498,"y":152},{"x":542,"y":152},{"x":576,"y":152},{"x":598,"y":152},{"x":605,"y":152},{"x":606,"y":152}],"color":"#333333","lineWidth":4},{"points":[{"x":533,"y":137},{"x":532,"y":140},{"x":531,"y":144},{"x":530,"y":150},{"x":529,"y":158},{"x":526,"y":170},{"x":523,"y":184},{"x":519,"y":199},{"x":513,"y":214},{"x":501,"y":234},{"x":494,"y":240}],"color":"#333333","lineWidth":4},{"points":[{"x":585,"y":179},{"x":587,"y":184},{"x":589,"y":191},{"x":591,"y":201},{"x":593,"y":212},{"x":597,"y":224},{"x":603,"y":236},{"x":610,"y":248},{"x":619,"y":257},{"x":628,"y":267},{"x":643,"y":276},{"x":647,"y":277},{"x":658,"y":282},{"x":666,"y":283}],"color":"#333333","lineWidth":4},{"points":[{"x":108,"y":115},{"x":108,"y":115},{"x":110,"y":113},{"x":111,"y":111},{"x":114,"y":108},{"x":119,"y":105},{"x":126,"y":102},{"x":135,"y":98},{"x":147,"y":96},{"x":161,"y":93},{"x":178,"y":92},{"x":196,"y":91},{"x":212,"y":91},{"x":226,"y":91},{"x":238,"y":91},{"x":247,"y":91},{"x":251,"y":91},{"x":254,"y":91},{"x":255,"y":91}],"color":"#333333","lineWidth":4,"pen":"writing"},{"points":[{"x":115,"y":174},{"x":117,"y":174},{"x":122,"y":174},{"x":131,"y":174},{"x":143,"y":174},{"x":157,"y":174},{"x":173,"y":174},{"x":189,"y":174},{"x":210,"y":174},{"x":226,"y":172},{"x":239,"y":171},{"x":251,"y":169},{"x":257,"y":168},{"x":261,"y":166},{"x":263,"y":165},{"x":264,"y":164}],"color":"#333333","lineWidth":4,"pen":"writing"},{"points":[{"x":191,"y":103},{"x":191,"y":104},{"x":191,"y":106},{"x":191,"y":110},{"x":190,"y":115},{"x":188,"y":122},{"x":184,"y":131},{"x":180,"y":142},{"x":175,"y":155},{"x":169,"y":168},{"x":159,"y":184},{"x":150,"y":199},{"x":138,"y":214},{"x":128,"y":227},{"x":117,"y":237},{"x":107,"y":244},{"x":99,"y":250},{"x":93,"y":253},{"x":90,"y":255},{"x":89,"y":256}],"color":"#333333","lineWidth":4,"pen":"writing"},{"points":[{"x":174,"y":190},{"x":175,"y":191},{"x":178,"y":192},{"x":180,"y":193},{"x":185,"y":197},{"x":192,"y":200},{"x":199,"y":205},{"x":207,"y":208},{"x":217,"y":212},{"x":227,"y":218},{"x":238,"y":222},{"x":250,"y":229},{"x":266,"y":235},{"x":284,"y":241},{"x":306,"y":248},{"x":330,"y":255},{"x":356,"y":261},{"x":382,"y":266}],"color":"#333333","lineWidth":4,"pen":"writing"},{"points":[{"x":696,"y":100},{"x":696,"y":100},{"x":703,"y":100},{"x":713,"y":101},{"x":728,"y":104},{"x":748,"y":105},{"x":772,"y":105},{"x":805,"y":105},{"x":844,"y":105},{"x":880,"y":105},{"x":916,"y":105},{"x":949,"y":105},{"x":976,"y":105},{"x":992,"y":105},{"x":1001,"y":105},{"x":1004,"y":105},{"x":1005,"y":105},{"x":1005,"y":106}],"color":"#333333","lineWidth":4,"pen":"fangkuai"},{"points":[{"x":735,"y":167},{"x":737,"y":168},{"x":740,"y":168},{"x":748,"y":171},{"x":757,"y":173},{"x":770,"y":174},{"x":786,"y":174},{"x":808,"y":174},{"x":835,"y":174},{"x":865,"y":174},{"x":896,"y":173},{"x":923,"y":172},{"x":942,"y":172},{"x":958,"y":172},{"x":971,"y":171},{"x":976,"y":170},{"x":977,"y":170}],"color":"#333333","lineWidth":4,"pen":"fangkuai"},{"points":[{"x":859,"y":134},{"x":856,"y":141},{"x":852,"y":149},{"x":845,"y":159},{"x":838,"y":170},{"x":829,"y":181},{"x":819,"y":192},{"x":808,"y":204},{"x":797,"y":212},{"x":785,"y":219},{"x":773,"y":226},{"x":763,"y":229},{"x":756,"y":230},{"x":752,"y":230}],"color":"#333333","lineWidth":4,"pen":"fangkuai"},{"points":[{"x":848,"y":199},{"x":856,"y":206},{"x":866,"y":215},{"x":878,"y":221},{"x":892,"y":227},{"x":910,"y":235},{"x":929,"y":243},{"x":950,"y":249},{"x":971,"y":255},{"x":992,"y":261},{"x":1011,"y":264},{"x":1029,"y":268},{"x":1044,"y":269},{"x":1058,"y":270}],"color":"#333333","lineWidth":4,"pen":"fangkuai"}],"color":"#333333","lineWidth":4,"bgColor":-1,"pen":"writing","writingMaxLine":20,"writingMinLine":10,"drawMode":1}
+        var m6 = new EleSign({
+            ele: document.getElementById("testEle6"),
+            bgColor: "#eeeeee",
+            drawMode:1
+        })
+        
+        m6.init();
+        m6.draw.lock()
+        m6.addPen("fangkuai","./1.png", m5.penList["fangkuai"].penCall,function () {
+            //解锁绘制 
+            m6.draw.unlock();
+            m6.jsonTo(useJson)
+        },
+        m5.penList["fangkuai"].start,
+        m5.penList["fangkuai"].move,
+        m5.penList["fangkuai"].end,{
+            drawLine: m5.penList["fangkuai"].drawLine
+        })
     </script>
 </body>
 

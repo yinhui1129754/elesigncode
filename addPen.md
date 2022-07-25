@@ -29,6 +29,7 @@ EleSign.STRUCT = {
     Data:Data, //数据类的构造函数
     Point:Point, //点类的构造函数
     ImageLoad:ImageLoad,//图片加载类的构造函数
+    ENUM_DRAW_LINE_MODE:ENUM_DRAW_LINE_MODE // 枚举变量 描述绘制模式
 }
 ```
 ## 然后看代码 这份代码演示了添加笔的逻辑
@@ -60,20 +61,44 @@ EleSign.STRUCT = {
         //锁绘制
         m5.draw.lock()
         m5.addPen("fangkuai", "./1.png", function(main, penObj){
-            var self = main.draw
+             var self = main.draw
             var arr = self.main.data.buffer
-            var i = 0, q = 0, w = 0;
+            var i = 0;
             var c2d = self.memCvs2d;
             c2d.clearRect(0, 0, self.memCvs.width, self.memCvs.height)
             c2d.save();
             c2d.scale(self.scalc, self.scalc);
             for (i = 0; i < arr.length; i++) {
+                this.drawLine&&this.drawLine(c2d,arr[i],main,penObj);
+            }
+            c2d.restore();
+        }, function () {
+            //解锁绘制 
+            m5.draw.unlock();
+            m5.setPen("fangkuai")
+        }, function (main, penObj, pos) {
+            main.dropData.nowLine = new EleSign.STRUCT.Line(main.pen)
+            main.dropData.nowLine.pushPoint(new EleSign.STRUCT.Point(pos.x, pos.y));
+            main.data.pushData(main.dropData.nowLine);
+        }, function(main, penObj, pos){
+            main.dropData.nowLine.pushPoint(new EleSign.STRUCT.Point(pos.x, pos.y));
+            main.draw.draw();
+        }, function (main, penObj, pos) {
+            main.draw.draw();
+        },{
+            // 绘制一根线条的 为了新增的绘图模式加的参数
+            drawLine:function(c2d,line,main,penObj){
+                var q=0,w=0;
+                if(!line.points.length){
+                    return;
+                }
+                
                 var pointArr = []
-                for (q = arr[i].points.length - 1; q > 0; q--) {
-                    var x = arr[i].points[q].x
-                    var y = arr[i].points[q].y
-                    var p1 = arr[i].points[q]
-                    var p2 = arr[i].points[q - 1]
+                for (q = line.points.length - 1; q > 0; q--) {
+                    var x = line.points[q].x
+                    var y = line.points[q].y
+                    var p1 = line.points[q]
+                    var p2 = line.points[q - 1]
                     var dis = distance(p2, p1)
                     if (p2) {
                         var len2 = Math.round(dis / 2) + 1;
@@ -89,23 +114,15 @@ EleSign.STRUCT = {
                 }
                 var l = main.option.writingMaxLine
                 for (w = pointArr.length - 1; w > 0; w--) {
+                    if (pointArr.length > 100 && w < 60) {
+                        l = l + 0.2;
+                        if (l > main.option.writingMaxLine) l = main.option.writingMaxLine;
+                    } else {
+                        l = l - 0.2;
+                        if (l < main.option.writingMinLine) l = main.option.writingMinLine;
+                    }
                     c2d.drawImage(penObj.img, pointArr[w].x, pointArr[w].y, l, l);
                 }
-
             }
-            c2d.restore();
-        }, function () {
-            //解锁绘制 
-            m5.draw.unlock();
-            m5.setPen("fangkuai")
-        }, function (main, penObj, pos) {
-            main.dropData.nowLine = new EleSign.STRUCT.Line()
-            main.dropData.nowLine.pushPoint(new EleSign.STRUCT.Point(pos.x, pos.y));
-            main.data.pushData(main.dropData.nowLine);
-        }, function(main, penObj, pos){
-            main.dropData.nowLine.pushPoint(new EleSign.STRUCT.Point(pos.x, pos.y));
-            main.draw.draw();
-        }, function (main, penObj, pos) {
-            main.draw.draw();
         });
 ```
