@@ -120,7 +120,7 @@
 |drawEle|强制重新绘制数据|无|无|
 |undo|撤销方法|无|无|
 |redo|重做方法|无|无|
-|toJson|将当前实例签名的数据转化为json|无|无|
+|toJson|将当前实例签名的数据转化为json字符串<b>这里是json字符串使用一定要JSON.parse才嗯那个jsonTo到画布中</b>|无|json字符串|
 |jsonTo|将传入的json数据转化到当前对象|json|无|
 |toPng|获取当前签名的base64位数据png类型|无|无|
 |toJpeg|获取当前签名的base64位数据jpeg类型|无|无|
@@ -171,6 +171,10 @@
 
 
 # 更新日志
+
+## 20221007 ver1.1.9
+
+完善文档 去掉项目无法下载的node-sass包
 
 ## 20211028 ver1.1.9
 

@@ -1,4 +1,4 @@
-import "./../src/scss/main.scss"
+import "./../src/css/main.css"
 import Main from "./../src/core/main"
 import defaultData from "./data"
 var bgImg = new Image()
@@ -6,10 +6,10 @@ bgImg.src= 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABHgAAAG3CAYAAADPdOKFAA
 var m = new Main({
     ele:null,
     pen:"writing",
-    bgImg:bgImg,
-    bgImgDrawCall(ctx,img,main){
-        ctx.drawImage(img,0,0)
-    },
+    // bgImg:bgImg,
+    // bgImgDrawCall(ctx,img,main){
+    //     ctx.drawImage(img,0,0)
+    // },
     drawMode:1
 });
 m.init();
@@ -33,7 +33,9 @@ m.addPen("fangkuai", "./1.png", function(main, penObj){
 }, function () {
     //解锁绘制 
     m.draw.unlock();
-    m.jsonTo(defaultData);
+    var data = m.toJson()
+    debugger;
+    m.jsonTo(JSON.parse(data));
 }, function (main, penObj, pos) {
     main.dropData.nowLine = new EleSign.STRUCT.Line(main.pen)
     main.dropData.nowLine.pushPoint(new EleSign.STRUCT.Point(pos.x, pos.y));
