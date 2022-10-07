@@ -1,72 +1,72 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-module.exports = {
-    mode: 'development',
-    entry: {
-      app: './example/all.js'
+// Generated using webpack-cli https://github.com/webpack/webpack-cli
+
+const path = require("path")
+const HtmlWebpackPlugin = require("html-webpack-plugin")
+// const ESLintPlugin = require("eslint-webpack-plugin")
+const isProduction = process.env.NODE_ENV == "production"
+
+const stylesHandler = "style-loader"
+
+const config = {
+  entry: "./example/all.ts",
+  output: {
+    filename: "[name].bundle.js",
+    path: path.resolve(__dirname, "dist")
+  },
+
+  devServer: {
+    static: {
+      directory: path.join(__dirname, "./example")
     },
-    plugins: [
-    
-      new HtmlWebpackPlugin({
-        title: '开发环境',
-        template:path.resolve(__dirname, 'example/all.html') 
-      })
-    ],
-    resolve: {
-    },
-    module:{
-      rules: [
-        {
-          test: /\.md$/,
-          use: [
-              {
-                  loader: "html-loader"
-              },
-              {
-                  loader: "markdown-loader",
-                  options: {
-                      /* your options here */
-                  }
-              }
-          ]
-      },
-        {
-          test: /\.js$/,
-          exclude: /(node_modules|bower_components)/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-env']
-            }
-          }
-        },
-        {
-        test: /\.scss$/,
-        use: [{
-            loader: "style-loader" // 将 JS 字符串生成为 style 节点
-        }, {
-            loader: "css-loader" // 将 CSS 转化成 CommonJS 模块
-        }, {
-            loader: "sass-loader" // 将 Sass 编译成 CSS
-        }]
-      }
-  ]
-    },
-    output: {
-      filename: '[name].bundle.js',
-      path: path.resolve(__dirname, 'dist')
-    },
-    devServer: {
-      
-        contentBase: path.join(__dirname, 'dist'),
-        compress: true,
-        port: 9000,
-        host:"0.0.0.0",
-        stats:{
-          modules: false,
-          children: false,
-          chunks: false,
-          chunkModules: false
-      }
+    hot: false,
+    compress: true,
+    port: 9001,
+    host: "0.0.0.0",
+    client: {
+      logging: "info",
+      overlay: false
     }
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./example/all.html"
+    })
+    // new ESLintPlugin()
+    // Add your plugins here
+    // Learn more about plugins from https://webpack.js.org/configuration/plugins/
+  ],
+  module: {
+    rules: [
+
+      {
+        test: /\.(ts|tsx)$/i,
+        loader: "ts-loader",
+        exclude: ["/node_modules/"]
+      },
+      {
+        test: /\.css$/i,
+        use: [stylesHandler, "css-loader"]
+      },
+
+      {
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        type: "asset"
+      }
+
+      // Add your rules for custom modules here
+      // Learn more about loaders from https://webpack.js.org/loaders/
+    ]
+  },
+  resolve: {
+    extensions: [".tsx", ".ts", ".jsx", ".js"]
+  }
+}
+
+module.exports = () => {
+  if (isProduction) {
+    config.mode = "production"
+  } else {
+    config.mode = "development"
+  }
+  return config
 }

@@ -1,0 +1,8 @@
+/build
+/webpack.config.js
+/webpack.config.gen.js
+/webpack.config.plist.js
+/src/view/*
+/lib
+/server
+/public
